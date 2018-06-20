@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.tao.framework.saka.autoconfig.SakaInit
+
+
+org.springframework.context.ApplicationContextInitializer=\
+com.tao.framework.saka.context.SakaApplicationContextInitializer
