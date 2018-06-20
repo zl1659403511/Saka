@@ -1,11 +1,11 @@
-package com.tao.framework.saka.annotation;
+package com.zhoutao123.framework.saka.annotation;
 
 import java.lang.annotation.*;
 
 /**
  * 订阅时间处理注解
  *
- * @author tao
+ * @author zhoutao123
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

@@ -1,4 +1,4 @@
-package com.tao.framework.saka.annotation;
+package com.zhoutao123.framework.saka.annotation;
 
 import org.springframework.stereotype.Service;
 
@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 /**
  * 订阅时间处理注解
  *
- * @author tao
+ * @author zhoutao123
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

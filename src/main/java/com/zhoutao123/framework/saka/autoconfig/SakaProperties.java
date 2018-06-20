@@ -1,4 +1,4 @@
-package com.tao.framework.saka.autoconfig;
+package com.zhoutao123.framework.saka.autoconfig;
 
 
 import lombok.Getter;

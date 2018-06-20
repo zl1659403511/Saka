@@ -1,11 +1,11 @@
-package com.tao.framework.saka.autoconfig;
+package com.zhoutao123.framework.saka.autoconfig;
 
 import java.lang.reflect.InvocationTargetException;
 
 /**
  * Saka客户端接口
  *
- * @author tao
+ * @author zhoutao123
  */
 public interface ISakaClient<T> {
 

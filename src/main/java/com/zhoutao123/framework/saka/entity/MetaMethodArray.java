@@ -1,4 +1,4 @@
-package com.tao.framework.saka.entity;
+package com.zhoutao123.framework.saka.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 元方法集合
  *
- * @author tao
+ * @author zhoutao123
  */
 public class MetaMethodArray {
 

@@ -1,6 +1,6 @@
-package com.tao.framework.saka.entity;
+package com.zhoutao123.framework.saka.entity;
 
-import com.tao.framework.saka.annotation.SakaSubscribe;
+import com.zhoutao123.framework.saka.annotation.SakaSubscribe;
 import lombok.Data;
 
 import java.lang.reflect.Method;
@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  * 元数据
  *
  *
- * @author tao
+ * @author zhoutao123
  */
 @Data
 public class MetaMethod {

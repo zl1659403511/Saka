@@ -1,7 +1,7 @@
-package com.tao.framework.saka.autoconfig;
+package com.zhoutao123.framework.saka.autoconfig;
 
-import com.tao.framework.saka.entity.MetaMethodArray;
-import com.tao.framework.saka.entity.MetaMethod;
+import com.zhoutao123.framework.saka.entity.MetaMethodArray;
+import com.zhoutao123.framework.saka.entity.MetaMethod;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 
@@ -11,10 +11,10 @@ import java.lang.reflect.Method;
 /**
  * Saka客户端的实现
  *
- * @author tao
+ * @author zhoutao123
  */
 @Slf4j
-public class SakaClient implements ISakaClient {
+public class SakaSendClient implements ISakaClient {
 
   @Async
   @Override

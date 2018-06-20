@@ -14,7 +14,7 @@ plugins {
 }
 apply plugin: 'jacoco'
 
-group 'com.tao.framework'
+group 'com.zhoutao123.framework'
 version '1.0.0'
 
 sourceCompatibility = 1.8
