@@ -149,3 +149,23 @@ public class TestController {
  Saka ------>  Saka has successfully sent 1 times data.           
  Saka ------>  Saka has successfully sent 1 times data.           
 ```
+
+## 关闭Saka
+
+在使用的过程中,可以通过配置动态的关闭Saka,重新启动应用，可以看到以下提示则说明关闭成功。
+```text
+Saka ------> Don't open the Saka, please check the configuration information
+```
+
+
+#### properties文件配置
+
+```properties
+saka.enable= false
+```
+#### yaml文件配置
+
+```yaml
+saka:
+    enable: false
+```
