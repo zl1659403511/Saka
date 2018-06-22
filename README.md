@@ -3,6 +3,7 @@
 + Saka是一个简单的基于事件的框架总库,支持一对一发送、一对多发送，以及多对多发送消息机制，
 目前项目处于1.0版本，正在处于开发中,稍后更详细的使用日志会同步更新。
 
+
 ## 使用方法
 
 #### 1、添加依赖
@@ -23,6 +24,7 @@
 |参数名称|说明|默认值|备注|
 |-----|----|-----|-----|
 |debug|是否为调试模式|false|调试模式在使用中会打印日志|
+|order|设置优先级顺序|5|数字越小，优先级越高,越先被执行|
 
 如下定义了三种基本的接收器
 
@@ -149,6 +151,35 @@ public class TestController {
  Saka ------>  Saka has successfully sent 1 times data.           
  Saka ------>  Saka has successfully sent 1 times data.           
 ```
+## 开启优先级顺序执行
+在通过注解```@SakaSubscribe```设置Subscribe的同同时，您可以为其设置优先级order，如果不设置默认值为OrderConstance.ORDER_NORMALE(5)，数字越小，优先级越高,越先被执行。如下所示
+
+```java
+  @SakaSubscribe(debug = true,order = OrderConstance.ORDER_NORMALE)
+  public void printMessage() {}
+
+  /** 接受参数一个参数 */
+  @SakaSubscribe(debug = true,order = OrderConstance.ORDER_HIGHT)
+  public void execCommand(String message) {}
+
+  /** 接受一个参数自定义的参数类型 */
+  @SakaSubscribe(order = OrderConstance.ORDER_LOWWER)
+  public void sendClassObject(Message message) {}
+```
+同时,考虑到性能，顺序执行Subscribe是默认关闭状态的，您可以通过application配置文件配置启用此功能
+
++ properties文件
+
+```properties
+saka.sequence-execute=true
+```
++ yaml文件
+
+```yaml
+saka:
+  sequence-execute: true
+```
+
 ## 设置监听器
 在一些情况下您可以设置listener来实现Subscribe的执行状况监听,您只需要在Spring容器中注入监听对象即可，此Bean要求继承HandleSubscribeListener接口。
 

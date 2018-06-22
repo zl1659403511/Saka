@@ -58,6 +58,10 @@ public class SakaInit {
             metaMethod.getParamCount());
       }
     }
+    // if order exexuct is open,and sort metaMethod
+    if (sakaProperties.isSequenceExecute()) {
+      MetaMethodArray.sort();
+    }
     return new SakaSendClient();
   }
 }

@@ -1,6 +1,7 @@
 package com.zhoutao123.framework.saka.entity;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -39,5 +40,22 @@ public class MetaMethodArray {
 
   public static List<MetaMethod> getMetaMethods() {
     return metaMethods;
+  }
+
+  /** start sort with order(int) */
+  public static void sort() {
+    if (metaMethods != null) {
+      metaMethods.sort(
+          new Comparator<MetaMethod>() {
+            @Override
+            public int compare(MetaMethod o1, MetaMethod o2) {
+              if (o1.getOrder() == o2.getOrder()) {
+                return 0;
+              } else {
+                return o1.getOrder() > o2.getOrder() ? 1 : -1;
+              }
+            }
+          });
+    }
   }
 }

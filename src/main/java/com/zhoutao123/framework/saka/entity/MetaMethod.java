@@ -22,11 +22,14 @@ public class MetaMethod {
 
   private Class[] paramType;
 
+  private int order;
+
   public MetaMethod(Object instance, Method method) {
     this.instance = instance;
     this.method = method;
     this.paramCount = method.getParameterCount();
     this.paramType = method.getParameterTypes();
+    this.order = method.getAnnotation(SakaSubscribe.class).order();
   }
 
   /**
