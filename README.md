@@ -149,6 +149,33 @@ public class TestController {
  Saka ------>  Saka has successfully sent 1 times data.           
  Saka ------>  Saka has successfully sent 1 times data.           
 ```
+## 设置监听器
+在一些情况下您可以设置listener来实现Subscribe的执行状况监听,您只需要在Spring容器中注入监听对象即可，此Bean要求继承HandleSubscribeListener接口。
+
+比如:
+
+```java
+  @Bean
+  public HandleSubscribeListener handleSubscribeListener(){
+    return new HandleSubscribeListener() {
+      //TODO 返回执行结果
+      @Override
+      public void onSuccess(MetaMethod metaMethod, Object resultObject) {
+        log.info("Subscribe监听器接收到执行了方法 = {} ",metaMethod.getMethod().getName());
+      }
+
+      @Override
+      public boolean onError(Throwable t) {
+        log.error("Subscribe监听器接收执行错误的通知,错误信息 = {}",t);
+        return true;
+      }
+    };
+  }
+
+```
++ 成功执行一个Subscribe的时候将会执行```public void onSuccess(MetaMethod, Object )```方法，其中MetaMethod表示当前执行的对象,resultObject表示执行的结果对象
++ 执行Subscribe中出现了异常信息的时候，将执行```public boolean onError(Throwable)``` 您可以返回一个布尔类型的数据表示是否继续执行剩余的Subscribe，其中Throwable表示出现的异常信息
+
 
 ## 关闭Saka
 

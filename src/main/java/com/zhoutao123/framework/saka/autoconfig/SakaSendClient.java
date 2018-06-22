@@ -1,8 +1,10 @@
 package com.zhoutao123.framework.saka.autoconfig;
 
-import com.zhoutao123.framework.saka.entity.MetaMethodArray;
 import com.zhoutao123.framework.saka.entity.MetaMethod;
+import com.zhoutao123.framework.saka.entity.MetaMethodArray;
+import com.zhoutao123.framework.saka.listener.HandleSubscribeListener;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,6 +18,9 @@ import java.lang.reflect.Method;
 @Slf4j
 public class SakaSendClient implements ISakaClient {
 
+  @Autowired(required = false)
+  HandleSubscribeListener listener;
+
   @Async
   @Override
   public void send() throws InvocationTargetException, IllegalAccessException {
@@ -24,30 +29,53 @@ public class SakaSendClient implements ISakaClient {
 
   @Async
   @Override
-  public void send(Object message) throws InvocationTargetException, IllegalAccessException {
+  public void send(Object message) {
     int count = 0;
     for (MetaMethod metaMethod : MetaMethodArray.getMetaMethods()) {
-      Method method = metaMethod.getMethod();
-      Object instance = metaMethod.getInstance();
-      // 传递过来的参数是null的话,要求只通知无参的方法
-      Object invoke = null;
       if (message == null && metaMethod.getParamCount() == 0) {
-        method.invoke(instance);
-        if (metaMethod.printLog()) {
-          log.info("Saka ------> Send Empty data to {} successfully", method.getName());
-        }
         count++;
+        if (!executeSubscribe(metaMethod, null)) {
+          break;
+        }
       } else if (message != null
           && metaMethod.getParamCount() == 1
           && metaMethod.getParamType()[0].equals(message.getClass())) {
-        metaMethod.getMethod().invoke(metaMethod.getInstance(), message);
-        if (metaMethod.printLog()) {
-          log.info("Saka ------> Send data to {} successfully", method.getName());
-          log.info("Data ------> ", message);
-        }
         count++;
+        if (!executeSubscribe(metaMethod, message)) {
+          break;
+        }
       }
     }
     log.info("Saka ------>  Saka has successfully sent {} times data.", count);
+  }
+
+  /**
+   * execute Subscribe with metaMethod and Message
+   *
+   * @param metaMethod
+   * @param message
+   * @return a bool reault,it express wether continue execute
+   */
+  private boolean executeSubscribe(MetaMethod metaMethod, Object message) {
+    Method method = metaMethod.getMethod();
+    Object instance = metaMethod.getInstance();
+    boolean continueExecute = true;
+    Object resultObject = null;
+    try {
+      if (message == null) {
+        resultObject = method.invoke(instance);
+      } else {
+        resultObject = method.invoke(instance, message);
+      }
+      if (listener != null) {
+        // FIXME 此处需要修改
+        listener.onSuccess(metaMethod, resultObject);
+      }
+    } catch (Exception e) {
+      if (listener != null) {
+        continueExecute = listener.onError(e);
+      }
+    }
+    return continueExecute;
   }
 }

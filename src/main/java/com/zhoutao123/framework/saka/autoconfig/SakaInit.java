@@ -35,30 +35,28 @@ public class SakaInit {
   @Bean
   @ConditionalOnMissingBean(SakaSendClient.class)
   public SakaSendClient serverBuilderConfigurer() {
-    if (sakaProperties.isEnable()) {
-      // 获取包含Bean
-      String[] beanDefinitionNames =
-          applicationContext.getBeanNamesForAnnotation(SakaService.class);
-      for (String name : beanDefinitionNames) {
-        Object bean = applicationContext.getBean(name);
-        Method[] methods1 = bean.getClass().getMethods();
-        for (Method method : methods1) {
-          // 检查注解信息
-          SakaSubscribe methodAnnotation = method.getAnnotation(SakaSubscribe.class);
-          if (methodAnnotation == null) {
-            continue;
-          }
-          method.setAccessible(true);
-          MetaMethod metaMethod = new MetaMethod(bean, method);
-          MetaMethodArray.add(metaMethod);
-          log.info(
-              "Saka ------> Add a methods {}({}) to Saka",
-              method.getName(),
-              metaMethod.getParamCount());
-        }
-      }
-    } else {
+    if (!sakaProperties.isEnable()) {
       log.info("Saka ------> Don't open the Saka, please check the configuration information");
+    }
+    // 获取包含Bean
+    String[] beanDefinitionNames = applicationContext.getBeanNamesForAnnotation(SakaService.class);
+    for (String name : beanDefinitionNames) {
+      Object bean = applicationContext.getBean(name);
+      Method[] methods1 = bean.getClass().getMethods();
+      for (Method method : methods1) {
+        // 检查注解信息
+        SakaSubscribe methodAnnotation = method.getAnnotation(SakaSubscribe.class);
+        if (methodAnnotation == null) {
+          continue;
+        }
+        method.setAccessible(true);
+        MetaMethod metaMethod = new MetaMethod(bean, method);
+        MetaMethodArray.add(metaMethod);
+        log.info(
+            "Saka ------> Add a methods {}({}) to Saka",
+            method.getName(),
+            metaMethod.getParamCount());
+      }
     }
     return new SakaSendClient();
   }
